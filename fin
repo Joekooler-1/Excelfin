@@ -4,15 +4,13 @@ Private Sub CommandButton1_Click()
     Dim ws As Worksheet
     Dim lastRow As Long
     Dim tradeDate As String
-    Dim valuationDate As String
     Dim timeElapsedFormula As String
     Dim adjustmentFormula As String
 
     Set ws = ThisWorkbook.Sheets("Sheet1") ' Change "Sheet1" to your actual sheet name
 
-    ' Get the dates from the text boxes as strings for the formulas
+    ' Get the trade date from the text box
     tradeDate = Me.TextBox3.Value    ' Trade Date from TextBox3
-    valuationDate = Me.TextBox2.Value ' Valuation Date from TextBox2
 
     ' Find the last row in column B and add new data 3 rows below
     lastRow = ws.Cells(ws.Rows.Count, 2).End(xlUp).Row
@@ -21,8 +19,9 @@ Private Sub CommandButton1_Click()
     ws.Cells(lastRow + 3, 2).Value = "TRADE ID"          ' Title in column B
     ws.Cells(lastRow + 3, 3).Value = Me.TextBox1.Value    ' Value from TextBox1 (Trade ID) in column C
 
+    ' Insert the Valuation Date as a reference to H1
     ws.Cells(lastRow + 4, 2).Value = "Valuation Date"     ' Title in column B
-    ws.Cells(lastRow + 4, 3).Value = Me.TextBox2.Value    ' Value from TextBox2 (Valuation Date) in column C
+    ws.Cells(lastRow + 4, 3).Formula = "=H1"              ' Reference to cell H1 for Valuation Date
 
     ws.Cells(lastRow + 5, 2).Value = "Trade Date"         ' Title in column B
     ws.Cells(lastRow + 5, 3).Value = Me.TextBox3.Value    ' Value from TextBox3 (Trade Date) in column C
