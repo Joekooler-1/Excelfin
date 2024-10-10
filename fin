@@ -5,7 +5,7 @@ Private Sub CommandButton1_Click()
     Dim lastRow As Long
     Dim nextAvailableRow As Long
     Dim tradeDate As String
-    Dim timeElapsedFormula As String
+    Dim timeElapsedFormula As String 
     Dim adjustmentFormula As String
     Dim adjustmentCellAddress As String
 
