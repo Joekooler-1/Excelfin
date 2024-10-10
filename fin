@@ -3,9 +3,11 @@ Private Sub CommandButton1_Click()
     ' Define worksheet reference
     Dim ws As Worksheet
     Dim lastRow As Long
+    Dim nextAvailableRow As Long
     Dim tradeDate As String
     Dim timeElapsedFormula As String
     Dim adjustmentFormula As String
+    Dim adjustmentCellAddress As String
 
     Set ws = ThisWorkbook.Sheets("Sheet1") ' Change "Sheet1" to your actual sheet name
 
@@ -41,12 +43,42 @@ Private Sub CommandButton1_Click()
     ws.Cells(lastRow + 8, 2).Value = "Adjustment"         ' Title in column B
     ws.Cells(lastRow + 8, 3).Formula = adjustmentFormula  ' Insert Adjustment formula in column C
 
+    ' Store the cell address of the adjustment formula
+    adjustmentCellAddress = ws.Cells(lastRow + 8, 3).Address
+
     ' Clear the text boxes after submission
     Me.TextBox1.Value = ""
-    Me.TextBox2.Value = ""
     Me.TextBox3.Value = ""
     Me.TextBox4.Value = ""
-    Me.TextBox5.Value = "" ' Clear calculated Time Elapsed (not needed in form anymore)
-    Me.TextBox6.Value = "" ' Clear calculated Adjustment (not needed in form anymore)
+
+    ' ====================
+    ' Insert TRADE ID into column F and Adjustment cell reference into column I
+    ' ====================
+    
+    ' Find the next available row in column F starting after row 13
+    nextAvailableRow = ws.Cells(ws.Rows.Count, 6).End(xlUp).Row + 1
+    If nextAvailableRow < 14 Then nextAvailableRow = 14 ' Ensure we start from row 14
+
+    ' Insert the TRADE ID from TextBox1 into column F in the next available row
+    ws.Cells(nextAvailableRow, 6).Value = Me.TextBox1.Value
+
+    ' Insert the address of the Adjustment cell into column I in the same row
+    ws.Cells(nextAvailableRow, 9).Value = adjustmentCellAddress
+
+    ' ====================
+    ' Insert formulas into columns H, J, L, M based on the identified row
+    ' ====================
+    
+    ' Set Column H to =-G(row)
+    ws.Cells(nextAvailableRow, 8).Formula = "=-G" & nextAvailableRow
+
+    ' Set Column J to =H(row)+I(row)
+    ws.Cells(nextAvailableRow, 10).Formula = "=H" & nextAvailableRow & "+I" & nextAvailableRow
+
+    ' Set Column L to =J(row)-((K(row)*2/3))
+    ws.Cells(nextAvailableRow, 12).Formula = "=J" & nextAvailableRow & "-((K" & nextAvailableRow & "*2/3))"
+
+    ' Set Column M to =J(row)+((K(row)*1/3))
+    ws.Cells(nextAvailableRow, 13).Formula = "=J" & nextAvailableRow & "+((K" & nextAvailableRow & "*1/3))"
 
 End Sub
