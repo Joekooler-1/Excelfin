@@ -1,0 +1,63 @@
+Private Sub CommandButton1_Click()
+
+    ' Define worksheet reference
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim tradeDate As Date
+    Dim valuationDate As Date
+    Dim timeElapsed As Double 
+    Dim day1PL As Double
+    Dim adjustment As Double
+
+    Set ws = ThisWorkbook.Sheets("Sheet1") ' Change "Sheet1" to your actual sheet name
+
+    ' Get the dates from the text boxes
+    tradeDate = CDate(Me.TextBox3.Value)        ' Trade Date from TextBox3
+    valuationDate = CDate(Me.TextBox2.Value)    ' Valuation Date from TextBox2
+
+    ' Calculate Time Elapsed: ((Valuation Date - Trade Date) / 365) * 12
+    timeElapsed = ((valuationDate - tradeDate) / 365) * 12
+
+    ' Insert the calculated Time Elapsed into TextBox5
+    Me.TextBox5.Value = timeElapsed
+
+    ' Get Day 1 P&L value from TextBox4
+    day1PL = CDbl(Me.TextBox4.Value) ' Convert to Double to ensure numeric calculations
+
+    ' Calculate Adjustment: MAX(0, Day 1 P&L * (12 - Time Elapsed) / 12)
+    adjustment = Application.Max(0, day1PL * (12 - timeElapsed) / 12)
+
+    ' Insert the calculated Adjustment into TextBox6
+    Me.TextBox6.Value = adjustment
+
+    ' Find the last row in column B and add new data 3 rows below
+    lastRow = ws.Cells(ws.Rows.Count, 2).End(xlUp).Row
+
+    ' Insert data into the worksheet
+    ws.Cells(lastRow + 3, 2).Value = "TRADE ID"          ' Title in column B
+    ws.Cells(lastRow + 3, 3).Value = Me.TextBox1.Value    ' Value from TextBox1 (Trade ID) in column C
+
+    ws.Cells(lastRow + 4, 2).Value = "Valuation Date"     ' Title in column B
+    ws.Cells(lastRow + 4, 3).Value = Me.TextBox2.Value    ' Value from TextBox2 (Valuation Date) in column C
+
+    ws.Cells(lastRow + 5, 2).Value = "Trade Date"         ' Title in column B
+    ws.Cells(lastRow + 5, 3).Value = Me.TextBox3.Value    ' Value from TextBox3 (Trade Date) in column C
+
+    ws.Cells(lastRow + 6, 2).Value = "Day 1 P&L"          ' Title in column B
+    ws.Cells(lastRow + 6, 3).Value = day1PL               ' Value from TextBox4 (Day 1 P&L) in column C
+
+    ws.Cells(lastRow + 7, 2).Value = "Time Elapsed"       ' Title in column B
+    ws.Cells(lastRow + 7, 3).Value = timeElapsed          ' Calculated Time Elapsed in column C
+
+    ws.Cells(lastRow + 8, 2).Value = "Adjustment"         ' Title in column B
+    ws.Cells(lastRow + 8, 3).Value = adjustment           ' Calculated Adjustment in column C
+
+    ' Clear the text boxes after submission
+    Me.TextBox1.Value = ""
+    Me.TextBox2.Value = ""
+    Me.TextBox3.Value = ""
+    Me.TextBox4.Value = ""
+    Me.TextBox5.Value = "" ' Clear calculated Time Elapsed
+    Me.TextBox6.Value = "" ' Clear calculated Adjustment
+
+End Sub
