@@ -5,9 +5,9 @@ Private Sub CommandButton1_Click()
     Dim lastRow As Long
     Dim nextAvailableRow As Long
     Dim tradeDate As String
-    Dim timeElapsedFormula As String 
+    Dim timeElapsedFormula As String
     Dim adjustmentFormula As String
-    Dim adjustmentCellAddress As String
+    Dim adjustmentValue As Double
 
     Set ws = ThisWorkbook.Sheets("Sheet1") ' Change "Sheet1" to your actual sheet name
 
@@ -43,8 +43,8 @@ Private Sub CommandButton1_Click()
     ws.Cells(lastRow + 8, 2).Value = "Adjustment"         ' Title in column B
     ws.Cells(lastRow + 8, 3).Formula = adjustmentFormula  ' Insert Adjustment formula in column C
 
-    ' Store the cell address of the adjustment formula
-    adjustmentCellAddress = ws.Cells(lastRow + 8, 3).Address
+    ' Wait for the formula in Adjustment to evaluate and get its value
+    adjustmentValue = ws.Cells(lastRow + 8, 3).Value
 
     ' Clear the text boxes after submission
     Me.TextBox1.Value = ""
@@ -52,7 +52,7 @@ Private Sub CommandButton1_Click()
     Me.TextBox4.Value = ""
 
     ' ====================
-    ' Insert TRADE ID into column F and Adjustment cell reference into column I
+    ' Insert TRADE ID into column F and Adjustment value into column I
     ' ====================
     
     ' Find the next available row in column F starting after row 13
@@ -62,8 +62,8 @@ Private Sub CommandButton1_Click()
     ' Insert the TRADE ID from TextBox1 into column F in the next available row
     ws.Cells(nextAvailableRow, 6).Value = Me.TextBox1.Value
 
-    ' Insert the address of the Adjustment cell into column I in the same row
-    ws.Cells(nextAvailableRow, 9).Value = adjustmentCellAddress
+    ' Insert the value of the Adjustment into column I in the same row
+    ws.Cells(nextAvailableRow, 9).Value = adjustmentValue
 
     ' ====================
     ' Insert formulas into columns H, J, L, M based on the identified row
