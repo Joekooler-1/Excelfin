@@ -55,9 +55,13 @@ Private Sub CommandButton1_Click()
     ' Insert TRADE ID into column F and Adjustment value into column I
     ' ====================
     
-    ' Find the next available row in column F starting after row 13
+    ' Find the next available row in column F starting from the bottom of the sheet
     nextAvailableRow = ws.Cells(ws.Rows.Count, 6).End(xlUp).Row + 1
-    If nextAvailableRow < 14 Then nextAvailableRow = 14 ' Ensure we start from row 14
+
+    ' Ensure the row is after row 13
+    If nextAvailableRow < 14 Then
+        nextAvailableRow = 14
+    End If
 
     ' Insert the TRADE ID from TextBox1 into column F in the next available row
     ws.Cells(nextAvailableRow, 6).Value = Me.TextBox1.Value
