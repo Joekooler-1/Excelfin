@@ -1,0 +1,56 @@
+Private Sub btnSubmit_Click()
+
+    Dim ws As Worksheet
+    Dim emptyRow As Long  
+    Dim lastRow As Long
+    
+    ' Set your worksheet
+    Set ws = ThisWorkbook.Sheets("Sheet1") ' Change "Sheet1" to your actual sheet name
+    
+    ' Find the first empty cell in column B starting from row 20
+    lastRow = ws.Cells(ws.Rows.Count, "B").End(xlUp).Row
+    If lastRow < 20 Then
+        emptyRow = 20
+    Else
+        emptyRow = lastRow + 1
+    End If
+
+    ' Populate the form data into the columns B to T
+    ws.Cells(emptyRow, 2).Value = Me.txtB.Value   ' Column B
+    ws.Cells(emptyRow, 3).Value = Me.txtC.Value   ' Column C
+    ws.Cells(emptyRow, 4).Value = Me.txtD.Value   ' Column D
+    ws.Cells(emptyRow, 5).Value = Me.txtE.Value   ' Column E
+    
+    ' Predefined values for columns F, G, H, I (you can adjust these values)
+    ws.Cells(emptyRow, 6).Value = "Predefined F"
+    ws.Cells(emptyRow, 7).Value = "Predefined G"
+    ws.Cells(emptyRow, 8).Value = "Predefined H"
+    ws.Cells(emptyRow, 9).Value = "Predefined I"
+    
+    ' Continue with user input
+    ws.Cells(emptyRow, 10).Value = Me.txtJ.Value  ' Column J
+    ws.Cells(emptyRow, 11).Value = Me.txtK.Value  ' Column K
+    ws.Cells(emptyRow, 12).Value = Me.txtL.Value  ' Column L
+    
+    ' Predefined values for columns M to T
+    ws.Cells(emptyRow, 13).Value = "Predefined M"
+    ws.Cells(emptyRow, 14).Value = "Predefined N"
+    ws.Cells(emptyRow, 15).Value = "Predefined O"
+    ws.Cells(emptyRow, 16).Value = "Predefined P"
+    ws.Cells(emptyRow, 17).Value = "Predefined Q"
+    ws.Cells(emptyRow, 18).Value = "Predefined R"
+    ws.Cells(emptyRow, 19).Value = "Predefined S"
+    ws.Cells(emptyRow, 20).Value = "Predefined T"
+
+    ' Clear the textboxes after submission
+    Me.txtB.Value = ""
+    Me.txtC.Value = ""
+    Me.txtD.Value = ""
+    Me.txtE.Value = ""
+    Me.txtJ.Value = ""
+    Me.txtK.Value = ""
+    Me.txtL.Value = ""
+    
+    MsgBox "Data added successfully!"
+
+End Sub
